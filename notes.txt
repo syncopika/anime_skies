@@ -1,0 +1,9 @@
+TODO:
+- be able to sort sky pics in grid mode
+  - by color
+  - by source
+
+- experiment with web components?
+  - can try making a component for the cells of the grid in grid view?
+
+- image filters? :)

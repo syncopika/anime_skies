@@ -1,0 +1,615 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>anime skies</title>
+    <script src="./modal.js"></script>
+    <style>
+      body {
+        text-align: center;
+        font-family: Helvetica;
+      }
+      
+      h1 {
+        margin: 10px 0px 10px 0px;
+      }
+      
+      header {
+        display: flex;
+        gap: 5%;
+        margin-bottom: 15px;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      button {
+        /* border-radius: 8px; */
+        border: 1px solid transparent;
+        padding: 0.4em 1.0em;
+        font-size: 1em;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        background-color: transparent; 
+      }
+      
+      button:hover {
+        border: 1px solid #ccc;
+        transition: 1s;
+      }
+      
+      .opt p {
+        margin-bottom: 0;
+      }
+      
+      .preview {
+        opacity: 0.7;
+        position: absolute;
+        z-index: -1;
+        background-size: cover;
+        border: 1px solid #ccc;
+      }
+      
+      .grid-cell {
+        border: 1px solid #ccc;
+        height: 200px;
+        width: 8%;
+        background-size: cover;
+        align-self: flex-start;
+        margin-bottom: 20px;
+      }
+      
+      .grid-cell:hover {
+        cursor: pointer;
+      }
+      
+      #display {
+        margin: 0 auto;
+        width: 70%;
+        height: 50%;
+      }
+      
+      #source {
+        font-weight: bold;
+      }
+      
+      #options {
+        display: flex;
+        justify-content: center;
+        gap: 5%;
+      }
+      
+      #options p, label {
+        font-size: 0.8em;
+      }
+      
+      #displayDurationInput, #transitionDurationInput {
+        appearance: none;
+        background-color: #ccc;
+        height: 10px;
+      }
+      
+      #displayDurationInput::-webkit-slider-thumb, 
+      #transitionDurationInput::-webkit-slider-thumb {
+        appearance: none;
+        width: 9px;
+        height: 9px;
+        border: 1px solid #2196f3;
+        border-radius: 18px;
+        cursor: pointer;
+        background-color: #fff;
+      }
+      
+      /* because firefox has their own slider thumb pseudo-element */
+      #displayDurationInput::-moz-range-thumb, 
+      #transitionDurationInput::-moz-range-thumb {
+        appearance: none;
+        width: 9px;
+        height: 9px;
+        border: 1px solid #2196f3;
+        border-radius: 18px;
+        cursor: pointer;
+        background-color: #fff;
+      }
+      
+      #grid {
+        display: none;
+        position: relative;
+        gap: 1%;
+        flex-wrap: wrap;
+        left: -1000px;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #slideshow {
+        display: block;
+        position: relative;
+      }
+      
+      #slideshowMode {
+        border: 1px solid #2196f3;
+      }
+      
+      #darkModeSwitch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      /* hide the default checkbox HTML */
+      #toggleDarkModeCheckbox {
+        opacity: 0;
+      }
+      
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+      
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        background-color: #ccc;
+        transition: .4s;
+      }
+      
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: #fff;
+        transition: .4s;
+      }
+      
+      #toggleDarkModeCheckbox:checked + .slider {
+        background-color: #2196f3;
+      }
+      
+      #toggleDarkModeCheckbox:focus + .slider {
+        box-shadow: 0px 0px 1px #2196f3;
+      }
+      
+      #toggleDarkModeCheckbox:checked + .slider:before {
+        transform: translateX(26px);
+      }
+      
+      .slideRight {
+        animation: slideRight 1s forwards;
+      }
+      
+      @keyframes slideRight {
+        100% {
+          left: 0px;
+        }
+      }
+    </style>
+  </head>
+  
+  <body>
+    <header>
+      <h1> anime skies </h1>
+      <button id='slideshowMode' title='slideshow'>
+        <!-- from https://iconoir.com/ (transition-right) -->
+        <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M2 18V6C2 4.34315 3.34315 3 5 3H7C8.65685 3 10 4.34315 10 6V18C10 19.6569 8.65685 21 7 21H5C3.34315 21 2 19.6569 2 18Z" stroke="#000000" stroke-width="1.5"></path><path d="M16 3H18C20.2091 3 22 4.79086 22 7V17C22 19.2091 20.2091 21 18 21H16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 12H18M18 12L15 9M18 12L15 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
+      
+      <button id='gridMode' title='grid'>
+        <!-- from https://iconoir.com/ (grid) -->
+        <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M14 20.4V14.6C14 14.2686 14.2686 14 14.6 14H20.4C20.7314 14 21 14.2686 21 14.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M3 20.4V14.6C3 14.2686 3.26863 14 3.6 14H9.4C9.73137 14 10 14.2686 10 14.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M14 9.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V9.4C21 9.73137 20.7314 10 20.4 10H14.6C14.2686 10 14 9.73137 14 9.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M3 9.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V9.4C10 9.73137 9.73137 10 9.4 10H3.6C3.26863 10 3 9.73137 3 9.4Z" stroke="#000000" stroke-width="1.5"></path></svg>
+      </button>
+      
+      <div id='options'>
+        <div class='opt'>
+          <p> display time (ms): </p>
+          <input id='displayDurationInput' type='range' value='3000' min='500' max='10000' />
+          <label for='displayDurationInput' id='displayDurationLabel'> 3000 </label>
+        </div>
+        
+        <div class='opt'>
+          <p> transition time (ms): </p>
+          <input id='transitionDurationInput' type='range' value='1000' min='100' max='3000' /> 
+          <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 </label>
+        </div>
+      </div>
+      
+      <!-- https://www.w3schools.com/howto/howto_css_switch.asp -->
+      <div id='darkModeSwitch'>
+        <p> dark mode: </p>
+        <label class='switch'>
+          <input id='toggleDarkModeCheckbox' type='checkbox' />
+          <span class='slider'></span>
+        </label>
+      </div>
+    </header>
+    
+    <content>
+      <!-- slideshow mode -->
+      <div id='slideshow'>
+        <canvas id='display' class='transition'>
+        </canvas>
+        <p id='source'>source</p>
+      </div>
+      
+      <!-- grid mode -->
+      <div id='grid'>
+      </div>
+    </content>
+    
+    <script>
+      let skyIndex = 0;
+      let skies = [];
+      let maxCanvasWidth = 0;
+      let maxCanvasHeight = 0;
+      let lastTime = new Date();
+      let slideshowOn = true;
+      let lastCanvasClickPos = null;
+      
+      let displayDuration = 3000; // 3 sec
+      let transitionDuration = 1000; // 1 sec
+      
+      const modalManager = new Modal();
+      
+      const computedStyle = getComputedStyle(document.getElementById('display'));
+      maxCanvasWidth = parseInt(computedStyle.getPropertyValue('width'));
+      maxCanvasHeight = parseInt(computedStyle.getPropertyValue('height'));
+      
+      document.getElementById('displayDurationInput').addEventListener('change', (evt) => {
+        displayDuration = parseInt(evt.target.value);
+      });
+      
+      document.getElementById('displayDurationInput').addEventListener('input', (evt) => {
+        document.getElementById('displayDurationLabel').textContent = evt.target.value;
+      });
+      
+      document.getElementById('transitionDurationInput').addEventListener('change', (evt) => {
+        transitionDuration = parseInt(evt.target.value);
+      });
+      
+      document.getElementById('transitionDurationInput').addEventListener('input', (evt) => {
+        document.getElementById('transitionDurationLabel').textContent = evt.target.value;
+      });
+      
+      // clicking on slideshow button
+      document.getElementById('slideshowMode').addEventListener('click', () => {
+        const slideshowContent = document.getElementById('slideshow');
+        const slideshowBtn = document.getElementById('slideshowMode');
+        const gridBtn = document.getElementById('gridMode');
+        const gridContent = document.getElementById('grid');
+        
+        // if currently on slideshow mode but user wants to turn off/on slideshow
+        if(slideshowContent.style.display === 'block' ||
+           slideshowContent.style.display === '')
+        {
+          slideshowOn = !slideshowOn;
+          if(!slideshowOn){
+            slideshowBtn.style.border = 'none';
+            turnOffSlideshow();
+          }else{
+            slideshowBtn.style.border = '1px solid #2196f3';
+            turnOnSlideshow();
+          }
+        }
+        
+        // display slideshow content
+        if(slideshowContent.style.display === 'none'){
+          slideshowContent.style.display = 'block';
+          
+          gridContent.style.display = 'none';
+          gridContent.style.left = '-1000px';
+          
+          // animate slideshow slide
+          slideshowContent.classList.add('slideRight');
+          
+          // indicate current mode
+          if(slideshowOn) slideshowBtn.style.border = '1px solid #2196f3';
+          gridBtn.style.border = 'none';
+        }
+      });
+      
+      // clicking on grid button
+      document.getElementById('gridMode').addEventListener('click', () => {
+        const slideshowContent = document.getElementById('slideshow');
+        const slideshowBtn = document.getElementById('slideshowMode');
+        const gridBtn = document.getElementById('gridMode');
+        const gridContent = document.getElementById('grid');
+        
+        // display grid content
+        if(gridContent.style.display === 'none' || 
+           gridContent.style.display === '')
+        {
+          gridContent.style.display = 'flex';
+          
+          slideshowContent.style.display = 'none';
+          slideshowContent.style.left = '-1000px';
+          
+          // animate grid slide
+          gridContent.classList.add('slideRight');
+          
+          // indicate current mode
+          slideshowBtn.style.border = 'none';
+          gridBtn.style.border = '1px solid #2196f3';
+        }
+      });
+      
+      // toggle dark/light mode
+      document.getElementById('toggleDarkModeCheckbox').addEventListener('change', (evt) => {
+        const white = 'rgb(255, 255, 255)';
+        const black = 'rgb(20, 20, 20)';
+        
+        if(evt.target.checked){
+          // dark mode
+          document.body.style.backgroundColor = black;
+          document.body.style.color = white;
+          document.querySelectorAll('path').forEach(path => path.style.stroke = '#fff');
+        }else{
+          // light mode
+          document.body.style.backgroundColor = white;
+          document.body.style.color = black;
+          document.querySelectorAll('path').forEach(path => path.style.stroke = '#000');
+        }
+      });
+      
+      function getLastIndex(){
+        // get index of the sky pic that comes before the current one
+        if((skyIndex - 1) % skies.length < 0){
+          return ((skyIndex - 1) % skies.length) + skies.length;
+        }
+        return (skyIndex - 1) % skies.length;
+      }
+      
+      function canvasPointerdown(evt){
+        const canvas = document.getElementById('display');
+        const rect = canvas.getBoundingClientRect();
+        const newX = evt.clientX - rect.left;
+        const newY = evt.clientY - rect.top;
+        lastCanvasClickPos = {x: newX, y: newY};
+      }
+      
+      function canvasPointerup(evt){
+        const canvas = document.getElementById('display');
+        const rect = canvas.getBoundingClientRect();
+        const newX = evt.clientX - rect.left;
+        const newY = evt.clientY - rect.top;
+        if(lastCanvasClickPos){
+          const deltaX = newX - lastCanvasClickPos.x;
+          if(deltaX < 0){
+            // swipe left, advance sky image index
+            skyIndex = (skyIndex + 1) % skies.length;
+          }else if(deltaX > 0){
+            // swipe right, go backwards
+            skyIndex = getLastIndex();
+          }
+          
+          setSkyImageOnCanvas(canvas, skies[skyIndex]);
+          
+          document.querySelectorAll('.preview').forEach(p => p.parentNode.removeChild(p));
+          setupPreviews();
+        }
+      }
+      
+      function showNextSkyKeypress(){
+        const canvas = document.getElementById('display');
+        skyIndex = (skyIndex + 1) % skies.length;
+        setSkyImageOnCanvas(canvas, skies[skyIndex]);
+        document.querySelectorAll('.preview').forEach(p => p.parentNode.removeChild(p));
+        setupPreviews();
+      }
+      
+      function showPrevSkyKeypress(){
+        const canvas = document.getElementById('display');
+        skyIndex = getLastIndex();
+        setSkyImageOnCanvas(canvas, skies[skyIndex]);
+        document.querySelectorAll('.preview').forEach(p => p.parentNode.removeChild(p));
+        setupPreviews();
+      }
+      
+      function handleKeypressEvt(evt){
+        if(evt.code === 'ArrowLeft'){
+          showPrevSkyKeypress();
+        }else if(evt.code === 'ArrowRight'){
+          showNextSkyKeypress();
+        }
+      }
+      
+      function setupPreviews(){
+        const canvas = document.getElementById('display');
+        
+        // show next/prev sky previews
+        const lastIndex = getLastIndex();
+        const top = canvas.getBoundingClientRect().top;
+        const width = `${canvas.width}px`;
+        const height = `${canvas.height}px`;
+        
+        const lastPreview = document.createElement('div');
+        lastPreview.style.backgroundImage = `url("${skies[lastIndex].image.src}")`;
+        lastPreview.style.top = '10vh';
+        lastPreview.style.left = '-1vw';
+        lastPreview.style.width = '30vh';
+        lastPreview.style.height = '30vh';
+        lastPreview.style.transform = 'perspective(50rem) rotateY(-45deg)';
+        lastPreview.classList.add('preview');
+        
+        const nextPreview = document.createElement('div');
+        nextPreview.style.backgroundImage = `url("${skies[(skyIndex + 1) % skies.length].image.src}")`;
+        nextPreview.style.top = '10vh';
+        nextPreview.style.right = '-1vw';
+        nextPreview.style.width = '30vh';
+        nextPreview.style.height = '30vh';
+        nextPreview.style.transform = 'perspective(50rem) rotateY(45deg)';
+        nextPreview.classList.add('preview');
+        
+        canvas.parentNode.insertBefore(lastPreview, canvas);
+        canvas.after(nextPreview);
+      }
+      
+      function turnOffSlideshow(){
+        const canvas = document.getElementById('display');
+        
+        // set opacity of related elements to 1.0 in case they were fading out
+        canvas.style.opacity = 1.0;
+        document.getElementById('source').style.opacity = 1.0;
+        
+        // show next/prev sky previews
+        setupPreviews();
+        
+        // set controls to traverse sky pics
+        canvas.addEventListener('pointerdown', canvasPointerdown);
+        canvas.addEventListener('pointerup', canvasPointerup);
+        
+        //set arrow key listeners for left/right
+        window.addEventListener('keydown', handleKeypressEvt);
+      }
+      
+      function turnOnSlideshow(){
+        const canvas = document.getElementById('display');
+        
+        // show slideshow-related elements (e.g. transition controls)
+        document.getElementById('options').style.display = 'flex';
+        
+        // remove controls to traverse sky pics
+        canvas.removeEventListener('pointerdown', canvasPointerdown);
+        canvas.removeEventListener('pointerup', canvasPointerup);
+        window.removeEventListener('keydown', handleKeypressEvt);
+        
+        // remove next/prev sky previews
+        document.querySelectorAll('.preview').forEach(p => p.parentNode.removeChild(p));
+      }
+      
+      function setSkyImageOnCanvas(canvas, sky){
+        const ctx = canvas.getContext('2d');
+        
+        if(sky.image){
+          const imgWidth = sky.image.width;
+          const imgHeight = sky.image.height;
+          
+          if(imgWidth > maxCanvasWidth || imgHeight > maxCanvasHeight){
+            // resize canvas
+            const heightToWidthRatio = imgHeight / imgWidth;
+            let newCanvasWidth = imgWidth;
+            let newCanvasHeight = imgHeight;
+            
+            while(newCanvasWidth > maxCanvasWidth || newCanvasHeight > maxCanvasHeight){
+              newCanvasWidth -= 1;
+              newCanvasHeight -= heightToWidthRatio;
+            }
+            
+            canvas.width = newCanvasWidth;
+            canvas.height = newCanvasHeight;
+          }
+          
+          ctx.drawImage(sky.image, 0, 0, canvas.width, canvas.height);
+          
+          const skySourceElement = document.getElementById('source');
+          
+           // set image source text as specified in json
+          skySourceElement.textContent = sky.source;
+        }
+      }
+      
+      function createSkiesGrid(parentElement, skies){
+        skies.forEach(sky => {
+          const gridCell = document.createElement('div');
+          gridCell.classList.add('grid-cell');
+          gridCell.style.backgroundImage = `url("${sky.path}")`;
+          
+          gridCell.addEventListener('click', () => {
+            modalManager.createModal(sky);
+            //alert(sky.source);
+          });
+          
+          parentElement.appendChild(gridCell);
+        });
+      }
+      
+      function showSkies(){
+        if(!slideshowOn){
+          requestAnimationFrame(showSkies);
+          return;
+        }
+        const currTime = new Date();
+        const canvas = document.getElementById('display');
+        const skySourceElement = document.getElementById('source');
+        
+        // transition in
+        if(currTime - lastTime < transitionDuration){
+          // opacity should get closer to 1.0
+          const opacity = (currTime - lastTime) / transitionDuration;
+          canvas.style.opacity = opacity;
+          skySourceElement.style.opacity = opacity;
+        }
+        
+        // transition out
+        if(currTime - lastTime >= (displayDuration + transitionDuration) && 
+           currTime - lastTime < (displayDuration + (2 * transitionDuration))
+        ){
+          // opacity should get closer to 0.0
+          const opacity = 1.0 - (currTime - lastTime - (displayDuration + transitionDuration)) / transitionDuration;
+          canvas.style.opacity = opacity;
+          skySourceElement.style.opacity = opacity;
+        }
+        
+        // display the sky
+        if(currTime - lastTime <= displayDuration && 
+           currTime - lastTime >= transitionDuration){
+          canvas.style.opacity = 1.0;
+          skySourceElement.style.opacity = 1.0
+        }
+        
+        // show new sky after fadeout of current sky
+        if(currTime - lastTime >= (displayDuration + (2 * transitionDuration))){
+          lastTime = currTime;
+          
+          skyIndex = (skyIndex + 1) % skies.length;
+          
+          const currSky = skies[skyIndex];
+          const canvas = document.getElementById('display');
+          setSkyImageOnCanvas(canvas, currSky);
+        }
+        
+        requestAnimationFrame(showSkies);
+      }
+      
+      // fetch sky pics per the json file
+      const imageList = fetch('skies.json');
+      imageList.then(response => {
+        const res = response.json();
+        res.then(async (data) => {
+          data.forEach((sky, idx) => {
+            const img = new Image();
+            img.src = sky.path;
+            
+            img.onload = () => {
+              skies.push({
+                image: img,
+                source: sky.source,
+              });
+              
+              if(idx === 0){
+                const canvas = document.getElementById('display');
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                document.getElementById('source').textContent = sky.source;
+              }
+            };
+          });
+          
+          // create grid of sky pics
+          createSkiesGrid(document.getElementById('grid'), data);
+          
+          requestAnimationFrame(showSkies);
+        });
+      });
+    </script>
+  </body>
+</html>
