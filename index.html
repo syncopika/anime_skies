@@ -38,6 +38,11 @@
         border: 1px solid #ccc;
         transition: 1s;
       }
+
+      .opt {
+        display: flex;
+        align-items: center;
+      }
       
       .opt p {
         margin-bottom: 0;
@@ -49,6 +54,7 @@
         z-index: -1;
         background-size: cover;
         border: 1px solid #ccc;
+        top: 10vh;
       }
       
       .grid-cell {
@@ -68,6 +74,7 @@
         margin: 0 auto;
         width: 70%;
         height: 50%;
+        touch-action: none; /* for handling pointer events properly */
       }
       
       #source {
@@ -425,27 +432,28 @@
       function setupPreviews(){
         const canvas = document.getElementById('display');
         
+        const computedStyle = getComputedStyle(canvas);
+        const displayWidth = parseInt(computedStyle.getPropertyValue('width')) * 0.3;
+        const displayHeight = parseInt(computedStyle.getPropertyValue('height')) * 0.3;
+        
         // show next/prev sky previews
         const lastIndex = getLastIndex();
-        const top = canvas.getBoundingClientRect().top;
-        const width = `${canvas.width}px`;
-        const height = `${canvas.height}px`;
+        const width = `${displayWidth}px`;
+        const height = `${displayHeight}px`;
         
         const lastPreview = document.createElement('div');
         lastPreview.style.backgroundImage = `url("${skies[lastIndex].image.src}")`;
-        lastPreview.style.top = '10vh';
-        lastPreview.style.left = '-1vw';
-        lastPreview.style.width = '30vh';
-        lastPreview.style.height = '30vh';
+        lastPreview.style.left = '-5vw';
+        lastPreview.style.width = width;
+        lastPreview.style.height = height;
         lastPreview.style.transform = 'perspective(50rem) rotateY(-45deg)';
         lastPreview.classList.add('preview');
         
         const nextPreview = document.createElement('div');
         nextPreview.style.backgroundImage = `url("${skies[(skyIndex + 1) % skies.length].image.src}")`;
-        nextPreview.style.top = '10vh';
-        nextPreview.style.right = '-1vw';
-        nextPreview.style.width = '30vh';
-        nextPreview.style.height = '30vh';
+        nextPreview.style.right = '-5vw';
+        nextPreview.style.width = width;
+        nextPreview.style.height = height;
         nextPreview.style.transform = 'perspective(50rem) rotateY(45deg)';
         nextPreview.classList.add('preview');
         

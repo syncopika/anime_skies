@@ -2,7 +2,7 @@ class Modal {
   constructor(){
     this.modalStyle = {
       position: "fixed",
-      top: "30%",
+      top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
       zIndex: "1010",
@@ -23,7 +23,7 @@ class Modal {
       left: "0",
       width: "100%",
       height: "100%",
-      backgroundColor: "#aaa",
+      backgroundColor: "#090909",
       opacity: "0.2",
     };
   }
