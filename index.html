@@ -533,7 +533,6 @@
           
           gridCell.addEventListener('click', () => {
             modalManager.createModal(sky);
-            //alert(sky.source);
           });
           
           parentElement.appendChild(gridCell);
@@ -597,17 +596,17 @@
             const img = new Image();
             img.src = sky.path;
             
+            const newSkyImg = {
+              image: img,
+              source: sky.source,
+            };
+            
             img.onload = () => {
-              skies.push({
-                image: img,
-                source: sky.source,
-              });
+              skies.push(newSkyImg);
               
               if(idx === 0){
                 const canvas = document.getElementById('display');
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                document.getElementById('source').textContent = sky.source;
+                setSkyImageOnCanvas(canvas, newSkyImg);
               }
             };
           });
