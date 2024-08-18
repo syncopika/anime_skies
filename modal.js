@@ -7,11 +7,10 @@ class Modal {
       transform: "translate(-50%, -50%)",
       zIndex: "1010",
       textAlign: "center",
-      padding: "15px 0px 15px 0px",
+      padding: "35px 0px 15px 0px",
       backgroundColor: "#fff",
       width: "auto",
       height: "auto",
-      boxShadow: "2px 2px 2px #ccc",
       border: "1px solid #ccc",
       overflowY: "auto"
     };
@@ -24,7 +23,7 @@ class Modal {
       width: "100%",
       height: "100%",
       backgroundColor: "#090909",
-      opacity: "0.2",
+      opacity: "0.5",
     };
   }
   
