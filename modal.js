@@ -7,7 +7,7 @@ class Modal {
       transform: "translate(-50%, -50%)",
       zIndex: "1010",
       textAlign: "center",
-      padding: "35px 0px 15px 0px",
+      padding: "10px",
       backgroundColor: "#fff",
       width: "auto",
       height: "auto",
@@ -33,8 +33,6 @@ class Modal {
     Object.assign(modal.style, this.modalStyle);
     
     const img = document.createElement('img');
-    img.style.width = '70%';
-    img.style.height = '70%';
     img.src = sky.path;
     modal.appendChild(img);
     
