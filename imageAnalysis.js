@@ -1,10 +1,13 @@
 // functions for analyzing sky images
 
 function invertColor(rgbColorString){
-  const invertedColor = rgbColorString
-          .match(/(\d+)/g)
-          .map(c => 255 - parseInt(c))
-          .join(',');
+  // binarize first. if any channel is > 200, we'll say that color is #fff. else #000.
+  const match = rgbColorString.match(/(\d+)/g);
+  const newChanColor = match.some(c => c > 200) ? 255 : 0;
+  // then invert
+  const invertedColor = match
+                        .map(c => 255 - newChanColor)
+                        .join(',');
   return `rgb(${invertedColor})`;
 }
 
