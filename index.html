@@ -49,10 +49,6 @@
         align-items: center;
       }
       
-      .opt p {
-        margin-bottom: 0;
-      }
-      
       .preview {
         opacity: 0.7;
         position: absolute;
@@ -178,6 +174,7 @@
         content: "";
         height: 16px;
         width: 20px;
+        left: 5%;
         left: 4px;
         bottom: 4px;
         background-color: #fff;
@@ -197,7 +194,7 @@
       }
       
       #toggleDarkModeCheckbox:checked + .slider:before {
-        transform: translateX(22px);
+        transform: translateX(20px);
       }
       
       .slideRight {
@@ -231,15 +228,15 @@
       
       <div id='options'>
         <div class='opt'>
-          <p> display time (ms): </p>
+          <p> display time: </p>
           <input id='displayDurationInput' type='range' value='3000' min='500' max='10000' />
-          <label for='displayDurationInput' id='displayDurationLabel'> 3000 </label>
+          <label for='displayDurationInput' id='displayDurationLabel'> 3000 ms </label>
         </div>
         
         <div class='opt'>
-          <p> transition time (ms): </p>
+          <p> transition time: </p>
           <input id='transitionDurationInput' type='range' value='1000' min='100' max='3000' /> 
-          <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 </label>
+          <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 ms </label>
         </div>
       </div>
       
@@ -289,7 +286,7 @@
       });
       
       document.getElementById('displayDurationInput').addEventListener('input', (evt) => {
-        document.getElementById('displayDurationLabel').textContent = evt.target.value;
+        document.getElementById('displayDurationLabel').textContent = `${evt.target.value} ms`;
       });
       
       document.getElementById('transitionDurationInput').addEventListener('change', (evt) => {
@@ -297,7 +294,7 @@
       });
       
       document.getElementById('transitionDurationInput').addEventListener('input', (evt) => {
-        document.getElementById('transitionDurationLabel').textContent = evt.target.value;
+        document.getElementById('transitionDurationLabel').textContent = `${evt.target.value} ms`;
       });
       
       // clicking on slideshow button
