@@ -2,7 +2,8 @@
 
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>anime skies</title>
     <script src="./modal.js"></script>
     <script src="./imageAnalysis.js"></script>
@@ -12,27 +13,39 @@
         font-family: Helvetica;
       }
       
-      h1 {
-        margin: 10px 0px 10px 0px;
-      }
-      
       header {
         display: flex;
         gap: 5%;
         margin-bottom: 15px;
-        justify-content: center;
         align-items: center;
+        overflow-x: auto;
+        
+        /* don't use justify-content: center as 
+           that hides the buttons on smaller screens :/
+           
+           instead we can use auto for the margins of the first and
+           last children of the header to center the header's children
+           so things look fine on large screens and everything will
+           still show (but with overflow scroll) on smaller screens
+        */
+      }
+      
+      header > :first-child {
+        margin-left: auto;
+      }
+      
+      header > :last-child {
+        margin-right: auto;
       }
       
       button {
-        /* border-radius: 8px; */
         border: 1px solid transparent;
         padding: 0.4em 1.0em;
         font-size: 1em;
         font-weight: 500;
         font-family: inherit;
         cursor: pointer;
-        background-color: transparent; 
+        background-color: transparent;
       }
       
       button:hover {
@@ -73,8 +86,8 @@
       
       #display {
         margin: 0 auto;
-        width: 70%;
-        height: 50%;
+        width: 80vw;
+        height: 80vh;
         touch-action: none; /* for handling pointer events properly */
       }
       
@@ -85,7 +98,7 @@
       #options {
         display: flex;
         justify-content: center;
-        gap: 5%;
+        gap: 2em;
       }
       
       #options p, label {
@@ -101,8 +114,8 @@
       #displayDurationInput::-webkit-slider-thumb, 
       #transitionDurationInput::-webkit-slider-thumb {
         appearance: none;
-        width: 9px;
-        height: 9px;
+        width: 0.5vw;
+        height: 1.5vh;
         border: 1px solid #2196f3;
         border-radius: 2px;
         cursor: pointer;
@@ -113,8 +126,8 @@
       #displayDurationInput::-moz-range-thumb, 
       #transitionDurationInput::-moz-range-thumb {
         appearance: none;
-        width: 9px;
-        height: 9px;
+        width: 0.5vw;
+        height: 1.5vh;
         border: 1px solid #2196f3;
         border-radius: 2px;
         cursor: pointer;
@@ -228,13 +241,13 @@
       
       <div id='options'>
         <div class='opt'>
-          <p> display time: </p>
+          <p> display: </p>
           <input id='displayDurationInput' type='range' value='3000' min='500' max='10000' />
           <label for='displayDurationInput' id='displayDurationLabel'> 3000 ms </label>
         </div>
         
         <div class='opt'>
-          <p> transition time: </p>
+          <p> transition: </p>
           <input id='transitionDurationInput' type='range' value='1000' min='100' max='3000' /> 
           <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 ms </label>
         </div>
