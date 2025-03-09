@@ -86,8 +86,8 @@
       
       #display {
         margin: 0 auto;
-        width: 80vw;
-        height: 80vh;
+        width: 70%;
+        height: 50%;
         touch-action: none; /* for handling pointer events properly */
       }
       
@@ -153,63 +153,6 @@
         border: 1px solid #2196f3;
       }
       
-      #darkModeSwitch {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      
-      /* hide the default checkbox HTML */
-      #toggleDarkModeCheckbox {
-        opacity: 0;
-      }
-      
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-      }
-      
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        background-color: #ccc;
-        transition: .4s;
-      }
-      
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 20px;
-        left: 5%;
-        left: 4px;
-        bottom: 4px;
-        background-color: #fff;
-        transition: .4s;
-      }
-      
-      .colorDiv:hover {
-        cursor: pointer;
-      }
-      
-      #toggleDarkModeCheckbox:checked + .slider {
-        background-color: #2196f3;
-      }
-      
-      #toggleDarkModeCheckbox:focus + .slider {
-        box-shadow: 0px 0px 1px #2196f3;
-      }
-      
-      #toggleDarkModeCheckbox:checked + .slider:before {
-        transform: translateX(20px);
-      }
-      
       .slideRight {
         animation: slideRight 1s forwards;
       }
@@ -253,14 +196,10 @@
         </div>
       </div>
       
-      <!-- https://www.w3schools.com/howto/howto_css_switch.asp -->
-      <div id='darkModeSwitch'>
-        <p> dark mode: </p>
-        <label class='switch'>
-          <input id='toggleDarkModeCheckbox' type='checkbox' />
-          <span class='slider'></span>
-        </label>
-      </div>
+      <button id='toggleDarkMode' title='toggle dark/light mode'>
+        <!-- from https://iconoir.com/ (moon) -->
+        <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
     </header>
     
     <content>
@@ -284,6 +223,7 @@
       let lastTime = new Date();
       let slideshowOn = true;
       let lastCanvasClickPos = null;
+      let darkMode = false;
       
       let displayDuration = 3000; // 3 sec
       let transitionDuration = 1000; // 1 sec
@@ -373,17 +313,25 @@
       });
       
       // toggle dark/light mode
-      document.getElementById('toggleDarkModeCheckbox').addEventListener('change', (evt) => {
+      document.getElementById('toggleDarkMode').addEventListener('click', (evt) => {
         const white = 'rgb(255, 255, 255)';
         const black = 'rgb(20, 20, 20)';
         
-        if(evt.target.checked){
+        darkMode = !darkMode;
+        
+        if(darkMode){
+          // svg icon from iconoir.com (sun)
+          evt.target.innerHTML = '<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 12L23 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 2V1" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 23V22" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 20L19 19" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 4L19 5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 20L5 19" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4L5 5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 12L2 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+          
           // dark mode
           document.body.style.backgroundColor = black;
           document.body.style.color = white;
           document.querySelectorAll('path').forEach(path => path.style.stroke = '#fff');
           document.querySelectorAll('button').forEach(btn => btn.style.color = white);
         }else{
+          // svg icon from iconoir.com (moon)
+          evt.target.innerHTML = '<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+          
           // light mode
           document.body.style.backgroundColor = white;
           document.body.style.color = black;
