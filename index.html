@@ -2,7 +2,8 @@
 
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>anime skies</title>
     <script src="./modal.js"></script>
     <script src="./imageAnalysis.js"></script>
@@ -12,27 +13,39 @@
         font-family: Helvetica;
       }
       
-      h1 {
-        margin: 10px 0px 10px 0px;
-      }
-      
       header {
         display: flex;
         gap: 5%;
         margin-bottom: 15px;
-        justify-content: center;
         align-items: center;
+        overflow-x: auto;
+        
+        /* don't use justify-content: center as 
+           that hides the buttons on smaller screens :/
+           
+           instead we can use auto for the margins of the first and
+           last children of the header to center the header's children
+           so things look fine on large screens and everything will
+           still show (but with overflow scroll) on smaller screens
+        */
+      }
+      
+      header > :first-child {
+        margin-left: auto;
+      }
+      
+      header > :last-child {
+        margin-right: auto;
       }
       
       button {
-        /* border-radius: 8px; */
         border: 1px solid transparent;
         padding: 0.4em 1.0em;
         font-size: 1em;
         font-weight: 500;
         font-family: inherit;
         cursor: pointer;
-        background-color: transparent; 
+        background-color: transparent;
       }
       
       button:hover {
@@ -47,10 +60,6 @@
       .opt {
         display: flex;
         align-items: center;
-      }
-      
-      .opt p {
-        margin-bottom: 0;
       }
       
       .preview {
@@ -89,7 +98,7 @@
       #options {
         display: flex;
         justify-content: center;
-        gap: 5%;
+        gap: 2em;
       }
       
       #options p, label {
@@ -105,8 +114,8 @@
       #displayDurationInput::-webkit-slider-thumb, 
       #transitionDurationInput::-webkit-slider-thumb {
         appearance: none;
-        width: 9px;
-        height: 9px;
+        width: 0.5vw;
+        height: 1.5vh;
         border: 1px solid #2196f3;
         border-radius: 2px;
         cursor: pointer;
@@ -117,8 +126,8 @@
       #displayDurationInput::-moz-range-thumb, 
       #transitionDurationInput::-moz-range-thumb {
         appearance: none;
-        width: 9px;
-        height: 9px;
+        width: 0.5vw;
+        height: 1.5vh;
         border: 1px solid #2196f3;
         border-radius: 2px;
         cursor: pointer;
@@ -142,62 +151,6 @@
       
       #slideshowMode {
         border: 1px solid #2196f3;
-      }
-      
-      #darkModeSwitch {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      
-      /* hide the default checkbox HTML */
-      #toggleDarkModeCheckbox {
-        opacity: 0;
-      }
-      
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-      }
-      
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        background-color: #ccc;
-        transition: .4s;
-      }
-      
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 20px;
-        left: 4px;
-        bottom: 4px;
-        background-color: #fff;
-        transition: .4s;
-      }
-      
-      .colorDiv:hover {
-        cursor: pointer;
-      }
-      
-      #toggleDarkModeCheckbox:checked + .slider {
-        background-color: #2196f3;
-      }
-      
-      #toggleDarkModeCheckbox:focus + .slider {
-        box-shadow: 0px 0px 1px #2196f3;
-      }
-      
-      #toggleDarkModeCheckbox:checked + .slider:before {
-        transform: translateX(22px);
       }
       
       .slideRight {
@@ -231,26 +184,22 @@
       
       <div id='options'>
         <div class='opt'>
-          <p> display time (ms): </p>
+          <p> display: </p>
           <input id='displayDurationInput' type='range' value='3000' min='500' max='10000' />
-          <label for='displayDurationInput' id='displayDurationLabel'> 3000 </label>
+          <label for='displayDurationInput' id='displayDurationLabel'> 3000 ms </label>
         </div>
         
         <div class='opt'>
-          <p> transition time (ms): </p>
+          <p> transition: </p>
           <input id='transitionDurationInput' type='range' value='1000' min='100' max='3000' /> 
-          <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 </label>
+          <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 ms </label>
         </div>
       </div>
       
-      <!-- https://www.w3schools.com/howto/howto_css_switch.asp -->
-      <div id='darkModeSwitch'>
-        <p> dark mode: </p>
-        <label class='switch'>
-          <input id='toggleDarkModeCheckbox' type='checkbox' />
-          <span class='slider'></span>
-        </label>
-      </div>
+      <button id='toggleDarkMode' title='toggle dark/light mode'>
+        <!-- from https://iconoir.com/ (moon) -->
+        <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
     </header>
     
     <content>
@@ -274,6 +223,7 @@
       let lastTime = new Date();
       let slideshowOn = true;
       let lastCanvasClickPos = null;
+      let darkMode = false;
       
       let displayDuration = 3000; // 3 sec
       let transitionDuration = 1000; // 1 sec
@@ -289,7 +239,7 @@
       });
       
       document.getElementById('displayDurationInput').addEventListener('input', (evt) => {
-        document.getElementById('displayDurationLabel').textContent = evt.target.value;
+        document.getElementById('displayDurationLabel').textContent = `${evt.target.value} ms`;
       });
       
       document.getElementById('transitionDurationInput').addEventListener('change', (evt) => {
@@ -297,7 +247,7 @@
       });
       
       document.getElementById('transitionDurationInput').addEventListener('input', (evt) => {
-        document.getElementById('transitionDurationLabel').textContent = evt.target.value;
+        document.getElementById('transitionDurationLabel').textContent = `${evt.target.value} ms`;
       });
       
       // clicking on slideshow button
@@ -363,17 +313,25 @@
       });
       
       // toggle dark/light mode
-      document.getElementById('toggleDarkModeCheckbox').addEventListener('change', (evt) => {
+      document.getElementById('toggleDarkMode').addEventListener('click', (evt) => {
         const white = 'rgb(255, 255, 255)';
         const black = 'rgb(20, 20, 20)';
         
-        if(evt.target.checked){
+        darkMode = !darkMode;
+        
+        if(darkMode){
+          // svg icon from iconoir.com (sun)
+          evt.target.innerHTML = '<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 12L23 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 2V1" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 23V22" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 20L19 19" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 4L19 5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 20L5 19" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4L5 5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 12L2 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+          
           // dark mode
           document.body.style.backgroundColor = black;
           document.body.style.color = white;
           document.querySelectorAll('path').forEach(path => path.style.stroke = '#fff');
           document.querySelectorAll('button').forEach(btn => btn.style.color = white);
         }else{
+          // svg icon from iconoir.com (moon)
+          evt.target.innerHTML = '<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+          
           // light mode
           document.body.style.backgroundColor = white;
           document.body.style.color = black;
