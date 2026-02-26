@@ -9,7 +9,7 @@ class Modal {
       textAlign: "center",
       padding: "10px",
       backgroundColor: "#fff",
-      width: "auto",
+      width: "80%",
       height: "auto",
       border: "1px solid #ccc",
       overflowY: "auto"
