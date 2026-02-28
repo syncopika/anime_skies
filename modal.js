@@ -9,10 +9,10 @@ class Modal {
       textAlign: "center",
       padding: "10px",
       backgroundColor: "#fff",
-      width: "80%",
+      // width is defined in css to allow us to have different values based on mobile orientation
       height: "auto",
       border: "1px solid #ccc",
-      overflowY: "auto"
+      overflowY: "auto",
     };
     
     this.modalOverlayStyle = {
