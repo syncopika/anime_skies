@@ -162,7 +162,16 @@
         #modal {
           width: 80%;
         }
-      }      
+      }
+      
+      /* make button grey when disabled */
+      #analyzeSky:disabled svg {
+        filter: grayscale(1) opacity(0.5);
+      }
+      
+      #analyzeSky:disabled {
+        cursor: not-allowed;
+      }
     </style>
   </head>
   
@@ -284,6 +293,8 @@
           if(slideshowOn) slideshowBtn.style.border = '1px solid #2196f3';
           gridBtn.style.border = '1px solid transparent';
         }
+        
+        toggleAnalyzeSky(true);
       });
       
       // clicking on grid button
@@ -309,6 +320,9 @@
           slideshowBtn.style.border = '1px solid transparent';
           gridBtn.style.border = '1px solid #2196f3';
         }
+        
+        // disable color palette view button if in grid mode
+        toggleAnalyzeSky(false);
       });
       
       // toggle dark/light mode
@@ -506,6 +520,13 @@
           
           parentElement.appendChild(gridCell);
         });
+      }
+      
+      function toggleAnalyzeSky(toggleOn){
+        const analyzeSkyBtn = document.getElementById('analyzeSky');
+        if(analyzeSkyBtn){
+          analyzeSkyBtn.disabled = !toggleOn;
+        }
       }
       
       function showSkies(){
