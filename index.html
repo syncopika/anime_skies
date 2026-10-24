@@ -55,6 +55,10 @@
       img {
         width: 100%;
       }
+      
+      svg {
+        display: block;
+      }
 
       .opt {
         display: flex;
@@ -177,36 +181,36 @@
   
   <body>
     <header>
-      <button id='slideshowMode' title='slideshow mode'>
-        <!-- from https://iconoir.com/ (transition-right) -->
-        <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M2 18V6C2 4.34315 3.34315 3 5 3H7C8.65685 3 10 4.34315 10 6V18C10 19.6569 8.65685 21 7 21H5C3.34315 21 2 19.6569 2 18Z" stroke="#000000" stroke-width="1.5"></path><path d="M16 3H18C20.2091 3 22 4.79086 22 7V17C22 19.2091 20.2091 21 18 21H16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 12H18M18 12L15 9M18 12L15 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <button id='slideshowMode' title='toggle slideshow/carousel mode' aria-label='toggle slideshow/carousel mode'>
+        <!-- from https://iconoir.com/ (keyframes) -->
+        <svg aria-hidden='true' width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M13.8476 13.317L9.50515 18.2798C8.70833 19.1905 7.29167 19.1905 6.49485 18.2798L2.15238 13.317C1.49259 12.563 1.49259 11.437 2.15238 10.683L6.49485 5.72018C7.29167 4.80952 8.70833 4.80952 9.50515 5.72017L13.8476 10.683C14.5074 11.437 14.5074 12.563 13.8476 13.317Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 19L17.8844 13.3016C18.5263 12.5526 18.5263 11.4474 17.8844 10.6984L13 5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 19L21.8844 13.3016C22.5263 12.5526 22.5263 11.4474 21.8844 10.6984L17 5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </button>
       
-      <button id='gridMode' title='grid mode'>
+      <button id='gridMode' title='grid mode' aria-label='grid mode'>
         <!-- from https://iconoir.com/ (grid) -->
-        <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M14 20.4V14.6C14 14.2686 14.2686 14 14.6 14H20.4C20.7314 14 21 14.2686 21 14.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M3 20.4V14.6C3 14.2686 3.26863 14 3.6 14H9.4C9.73137 14 10 14.2686 10 14.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M14 9.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V9.4C21 9.73137 20.7314 10 20.4 10H14.6C14.2686 10 14 9.73137 14 9.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M3 9.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V9.4C10 9.73137 9.73137 10 9.4 10H3.6C3.26863 10 3 9.73137 3 9.4Z" stroke="#000000" stroke-width="1.5"></path></svg>
+        <svg aria-hidden='true' width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M14 20.4V14.6C14 14.2686 14.2686 14 14.6 14H20.4C20.7314 14 21 14.2686 21 14.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M3 20.4V14.6C3 14.2686 3.26863 14 3.6 14H9.4C9.73137 14 10 14.2686 10 14.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M14 9.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V9.4C21 9.73137 20.7314 10 20.4 10H14.6C14.2686 10 14 9.73137 14 9.4Z" stroke="#000000" stroke-width="1.5"></path><path d="M3 9.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V9.4C10 9.73137 9.73137 10 9.4 10H3.6C3.26863 10 3 9.73137 3 9.4Z" stroke="#000000" stroke-width="1.5"></path></svg>
       </button>
       
-      <button id='analyzeSky' title='get current sky color palette' onclick='analyzeImage(skies[skyIndex])'>
+      <button id='analyzeSky' title='get current sky color palette' aria-label='get current sky color palette' onclick='analyzeImage(skies[skyIndex])'>
         <!-- from https://iconoir.com/ (palette) -->
-        <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20.5096 9.54C20.4243 9.77932 20.2918 9.99909 20.12 10.1863C19.9483 10.3735 19.7407 10.5244 19.5096 10.63C18.2796 11.1806 17.2346 12.0745 16.5002 13.2045C15.7659 14.3345 15.3733 15.6524 15.3696 17C15.3711 17.4701 15.418 17.9389 15.5096 18.4C15.5707 18.6818 15.5747 18.973 15.5215 19.2564C15.4682 19.5397 15.3588 19.8096 15.1996 20.05C15.0649 20.2604 14.8877 20.4403 14.6793 20.5781C14.4709 20.7158 14.2359 20.8085 13.9896 20.85C13.4554 20.9504 12.9131 21.0006 12.3696 21C11.1638 21.0006 9.97011 20.7588 8.85952 20.2891C7.74893 19.8194 6.74405 19.1314 5.90455 18.2657C5.06506 17.4001 4.40807 16.3747 3.97261 15.2502C3.53714 14.1257 3.33208 12.9252 3.36959 11.72C3.4472 9.47279 4.3586 7.33495 5.92622 5.72296C7.49385 4.11097 9.60542 3.14028 11.8496 3H12.3596C14.0353 3.00042 15.6777 3.46869 17.1017 4.35207C18.5257 5.23544 19.6748 6.49885 20.4196 8C20.6488 8.47498 20.6812 9.02129 20.5096 9.52V9.54Z" stroke="#000000" stroke-width="1.5"></path><path d="M8 16.01L8.01 15.9989" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 12.01L6.01 11.9989" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 8.01L8.01 7.99889" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 6.01L12.01 5.99889" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 8.01L16.01 7.99889" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <svg aria-hidden='true' width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20.5096 9.54C20.4243 9.77932 20.2918 9.99909 20.12 10.1863C19.9483 10.3735 19.7407 10.5244 19.5096 10.63C18.2796 11.1806 17.2346 12.0745 16.5002 13.2045C15.7659 14.3345 15.3733 15.6524 15.3696 17C15.3711 17.4701 15.418 17.9389 15.5096 18.4C15.5707 18.6818 15.5747 18.973 15.5215 19.2564C15.4682 19.5397 15.3588 19.8096 15.1996 20.05C15.0649 20.2604 14.8877 20.4403 14.6793 20.5781C14.4709 20.7158 14.2359 20.8085 13.9896 20.85C13.4554 20.9504 12.9131 21.0006 12.3696 21C11.1638 21.0006 9.97011 20.7588 8.85952 20.2891C7.74893 19.8194 6.74405 19.1314 5.90455 18.2657C5.06506 17.4001 4.40807 16.3747 3.97261 15.2502C3.53714 14.1257 3.33208 12.9252 3.36959 11.72C3.4472 9.47279 4.3586 7.33495 5.92622 5.72296C7.49385 4.11097 9.60542 3.14028 11.8496 3H12.3596C14.0353 3.00042 15.6777 3.46869 17.1017 4.35207C18.5257 5.23544 19.6748 6.49885 20.4196 8C20.6488 8.47498 20.6812 9.02129 20.5096 9.52V9.54Z" stroke="#000000" stroke-width="1.5"></path><path d="M8 16.01L8.01 15.9989" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 12.01L6.01 11.9989" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 8.01L8.01 7.99889" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 6.01L12.01 5.99889" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 8.01L16.01 7.99889" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </button>
       
       <div class='opt'>
-        <p> display: </p>
-        <input id='displayDurationInput' type='range' value='3000' min='500' max='10000' />
-        <label for='displayDurationInput' id='displayDurationLabel'> 3000 ms </label>
+        <!-- from https://iconoir.com/ (modern-tv) -->
+        <svg role='img' aria-labelledBy='displayTimeTitle' width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><title id='displayTimeTitle'>display time</title><path d="M7 21L17 21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 16.4V3.6C2 3.26863 2.26863 3 2.6 3H21.4C21.7314 3 22 3.26863 22 3.6V16.4C22 16.7314 21.7314 17 21.4 17H2.6C2.26863 17 2 16.7314 2 16.4Z" stroke="#000000" stroke-width="1.5"></path></svg>
+        <input id='displayDurationInput' type='range' value='27' min='1' max='100' step='0.1' />
       </div>
       
       <div class='opt'>
-        <p> transition: </p>
-        <input id='transitionDurationInput' type='range' value='1000' min='100' max='3000' /> 
-        <label for='transitionDurationInput' id='transitionDurationLabel'> 1000 ms </label>
+        <!-- from https://iconoir.com/ (transition-right) -->
+        <svg role='img' aria-labelledBy='transitionTimeTitle' width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><title id='transitionTimeTitle'>transition time</title><path d="M2 18V6C2 4.34315 3.34315 3 5 3H7C8.65685 3 10 4.34315 10 6V18C10 19.6569 8.65685 21 7 21H5C3.34315 21 2 19.6569 2 18Z" stroke="#000000" stroke-width="1.5"></path><path d="M16 3H18C20.2091 3 22 4.79086 22 7V17C22 19.2091 20.2091 21 18 21H16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 12H18M18 12L15 9M18 12L15 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <input id='transitionDurationInput' type='range' value='32' min='1' max='100' /> 
       </div>
       
-      <button id='toggleDarkMode' title='toggle dark/light mode'>
+      <button id='toggleDarkMode' aria-label='toggle dark/light mode' title='toggle dark/light mode'>
         <!-- from https://iconoir.com/ (moon) -->
-        <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <svg aria-hidden='true' width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </button>
     </header>
     
@@ -224,8 +228,8 @@
     </content>
     
     <script>
+      const skies = [];
       let skyIndex = 0;
-      let skies = [];
       let maxCanvasWidth = 0;
       let maxCanvasHeight = 0;
       let lastTime = new Date();
@@ -236,6 +240,24 @@
       let displayDuration = 3000; // 3 sec
       let transitionDuration = 1000; // 1 sec
       
+      // since we want the sliders to make things faster going left to right,
+      // we need to linearly interpolate.
+      
+      // for display time, the (min, max) for the slider is (1, 100),
+      // which basically maps to a (min, max) of (500 ms, 10000 ms) time. so 1 -> 500 and 100 -> 10000.
+      // the linear interpolation formula is y1 + (y2 - y1)(x - x1)/(x2 - x1) and we can say (x1, y1) = (1, 500) and (x2, y2) = (100, 10000)
+      // therefore we can plug in whatever slider value we get to (x - 1)*9500/99 + 500
+      function calculateDisplayTimeFromSliderValue(sliderValue){
+        // slider value will range from 1 to 100 and we want to map that value to something between 500 and 10,000 (500 ms to 10000 ms)
+        return (sliderValue - 1) * 9500 / 99 + 500;
+      }
+      
+      // transition time should be min: 100 ms and max: 3000 ms
+      // again we can have the slider values range from 1 to 100 and then map a value in that range to 100 - 3000.
+      function calculateTransitionTimeFromSliderValue(sliderValue){
+        return (sliderValue - 1) * 2900 / 99 + 100;
+      }
+      
       const modalManager = new Modal();
       
       const computedStyle = getComputedStyle(document.getElementById('display'));
@@ -243,19 +265,13 @@
       maxCanvasHeight = parseInt(computedStyle.getPropertyValue('height'));
       
       document.getElementById('displayDurationInput').addEventListener('change', (evt) => {
-        displayDuration = parseInt(evt.target.value);
-      });
-      
-      document.getElementById('displayDurationInput').addEventListener('input', (evt) => {
-        document.getElementById('displayDurationLabel').textContent = `${evt.target.value} ms`;
+        displayDuration = calculateDisplayTimeFromSliderValue(parseFloat(evt.target.value));
+        //console.log(`new display duration: ${displayDuration}`);
       });
       
       document.getElementById('transitionDurationInput').addEventListener('change', (evt) => {
-        transitionDuration = parseInt(evt.target.value);
-      });
-      
-      document.getElementById('transitionDurationInput').addEventListener('input', (evt) => {
-        document.getElementById('transitionDurationLabel').textContent = `${evt.target.value} ms`;
+        transitionDuration = calculateTransitionTimeFromSliderValue(parseInt(evt.target.value));
+        //console.log(`new transition duration: ${transitionDuration}`);
       });
       
       // clicking on slideshow button
